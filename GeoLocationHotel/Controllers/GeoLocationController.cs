@@ -14,13 +14,13 @@ namespace GeoLocationHotel.Controllers
         public JsonResult<List<City>> GET([FromUri]string location)
 
         {
-            var result = new WebClient().DownloadString("https://maps.googleapis.com/maps/api/place/autocomplete/json?input=" + location + "&types=geocode&language=en&key=AIzaSyBOjs6ak3PinIYUN-ZbV-2YrZSrAyUk6ns");
-            var Jsonobject = JsonConvert.DeserializeObject<FirstObject>(result);
-            List<AutoComplete> autocomplete = Jsonobject.predictions;
-            string place = autocomplete[0].description;
-            var result2 = new WebClient().DownloadString("https://maps.googleapis.com/maps/api/place/textsearch/json?query=hotels+in+" + place + "&radius=10000&key=AIzaSyBOjs6ak3PinIYUN-ZbV-2YrZSrAyUk6ns");
-            var Jsonobject1 = JsonConvert.DeserializeObject<SecondObject>(result2);
-            List<City> HotelList = Jsonobject1.Results;
+            var collect = new WebClient().DownloadString("https://maps.googleapis.com/maps/api/place/autocomplete/json?input=" + location + "&types=geocode&language=en&key=AIzaSyBOjs6ak3PinIYUN-ZbV-2YrZSrAyUk6ns");
+            var collection_Jason = JsonConvert.DeserializeObject<FirstObject>(collect);
+            List<AutoComplete> placeName = collection_Jason.predictions;
+            string output = placeName[0].description;
+            var Hotels = new WebClient().DownloadString("https://maps.googleapis.com/maps/api/place/textsearch/json?query=hotels+in+" + place + "&radius=10000&key=AIzaSyBOjs6ak3PinIYUN-ZbV-2YrZSrAyUk6ns");
+            var collection_Jason2 = JsonConvert.DeserializeObject<SecondObject>(result2);
+            List<City> HotelList = collection_Jason2.Results;
 
             return Json(HotelList);
         }
